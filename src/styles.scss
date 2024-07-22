@@ -1,1 +1,79 @@
 /* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "ngx-toastr/toastr";
+
+* {
+  font-family: "Poppins", "sans-serif";
+}
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+
+
+.animate-slide-down {
+    animation: slideDown 0.2s ease-in-out forwards;
+  }
+  
+  .arrow-up::before {
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid white;
+  }
+  
+  
+  @layer utilities {
+    .custom-scroll::-webkit-scrollbar {
+      width: 8px;
+    }
+  
+    .custom-scroll::-webkit-scrollbar-track {
+      background: #e9ecef;
+    }
+  
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background-color: #858383;
+      border-radius: 5px;
+    }
+  
+    .custom-scroll-secondary::-webkit-scrollbar {
+      width: 8px;
+    }
+  
+    .custom-scroll-secondary::-webkit-scrollbar-track {
+      background: #e9ecef;
+    }
+  
+    .custom-scroll-secondary::-webkit-scrollbar-thumb {
+      background-color: #B6287D;
+      border-radius: 5px;
+    }
+  
+    .custom-scroll-primary::-webkit-scrollbar {
+      width: 8px;
+    }
+  
+    .custom-scroll-primary::-webkit-scrollbar-track {
+      background: #e9ecef;
+    }
+  
+    .custom-scroll-primary::-webkit-scrollbar-thumb {
+      background-color: #5d0e8b;
+      border-radius: 5px;
+    }
+  }

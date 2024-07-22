@@ -1,0 +1,41 @@
+<div class="flex justify-center items-center w-full h-full">
+  <div
+    class="flex flex-col justify-center items-center p-6 bg-white gap-4 rounded-md shadow-md border-l-4 border-l-secondary"
+  >
+    <div class="font-bold text-xl">Acceder</div>
+    <form
+      [formGroup]="form"
+      (ngSubmit)="login()"
+      class="flex flex-col gap-4 w-80"
+    >
+      <div class="flex flex-col gap-2">
+        <label for="input" class="m-0 font-semibold">Nombre de usuario</label>
+        <input
+          formControlName="username"
+          type="text"
+          class="border rounded p-2"
+          placeholder="Escribe tu nombre de usuario"
+        />
+      </div>
+      <div class="flex flex-col gap-2">
+        <label for="input" class="m-0 font-semibold">Contraseña </label>
+        <input
+          formControlName="password"
+          type="password"
+          class="border rounded p-2"
+          placeholder="Escribe tu contraseña"
+        />
+      </div>
+      <div class="flex flex-1 justify-center items-center">
+        <button
+          class="flex rounded border bg-primary py-2 px-3 text-white gap-[3px]"
+          type="submit"
+        >
+          Acceder @if (loading) {
+          <fa-icon [icon]="iconLoading" class="fa-spin text-white"></fa-icon>
+          }
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

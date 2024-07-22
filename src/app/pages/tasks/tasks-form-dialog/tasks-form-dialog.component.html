@@ -1,0 +1,69 @@
+<div class="bg-white flex flex-col p-5 gap-2">
+  <div class="flex justify-between items-center">
+    <label for="title" class="text-xl font-bold text-gray-500"
+      >Crear tarea</label
+    >
+    <div class="flex gap-4">
+      <button
+        (click)="closeDialog()"
+        class="flex rounded border font-normal bg-slate-300 py-2 px-3 text-slate-800 gap-[3px] cursor-pointer"
+      >
+        Cancelar
+      </button>
+      <button
+        (click)="createTask()"
+        class="bg-primary p-2 rounded text-white font-normal"
+      >
+        Guardar
+      </button>
+    </div>
+  </div>
+  <hr />
+  <form [formGroup]="formData" class="flex flex-col gap-4 mt-4">
+    <div class="flex gap-2 items-center">
+      <label for="input" class="font-bold">Titulo</label>
+      <input
+        class="border rounded p-2 w-full"
+        placeholder="Titulo de tarea"
+        type="text"
+        formControlName="title"
+      />
+    </div>
+    <div class="flex flex-col gap-1">
+      <label class="font-bold">Descripcion</label>
+      <textarea
+        formControlName="description"
+        class="border rounded p-2 w-full"
+        rows="10"
+        cols="50"
+      ></textarea>
+    </div>
+
+    <div class="flex gap-2">
+      <div class="flex flex-1 gap-2 items-center">
+        <label for="input">Tipo</label>
+        <input
+          class="border rounded p-2 w-full"
+          placeholder="Tipo de tarea"
+          type="text"
+          formControlName="type"
+        />
+      </div>
+
+      <div class="flex flex-1 gap-2 font-normal items-center">
+        Asignado A:
+        <select formControlName="employe" class="border rounded p-2">
+          @for (item of employes; track $index) {
+          <option [value]="item.id">{{ item.name }} {{ item.lastName }}</option>
+          }
+        </select>
+      </div>
+    </div>
+    <div
+      class="flex flex-1 gap-2 p-2 font-normal items-center text-blue-900 bg-blue-200 rounded-md border-blue-500 border-2"
+    >
+      <fa-icon [icon]="iconAlert" class="text-blue-500"></fa-icon>
+      El estado inicial de la tarea será<strong>Pendiente</strong>
+    </div>
+  </form>
+</div>

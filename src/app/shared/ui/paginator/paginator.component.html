@@ -1,0 +1,29 @@
+@if (paginatorData) {
+<div class="flex flex-col gap-1 justify-center">
+  <div class="flex flex-1 justify-center items-center">
+    <p class="font-normal">
+      Mostrando <strong>{{ this.paginatorData.pageSize }}</strong> de
+      <strong>{{ this.paginatorData.totalRecords }}</strong> registros
+    </p>
+  </div>
+  <div class="flex gap-2 justify-center items-centerms">
+    @if (validPreviousPage()) {
+    <fa-icon
+      [icon]="this.iconLeft"
+      class="py-2 px-4 cursor-pointer"
+      (click)="previousPage()"
+    ></fa-icon>
+    }
+    <div class="rounded-full py-2 px-4 bg-slate-300 border text-bold">
+      {{ this.paginatorData.currentPage }}
+    </div>
+    @if (validNextPage()) {
+    <fa-icon
+      [icon]="this.iconRight"
+      class="py-2 px-4 cursor-pointer"
+      (click)="nextPage()"
+    ></fa-icon>
+    }
+  </div>
+</div>
+}

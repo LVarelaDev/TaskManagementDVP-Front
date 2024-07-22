@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<div class="grid grid-cols-3 gap-4">
+  <!-- Pending -->
+  <form [formGroup]="form" class="col-span-3">
+    <div class="flex justify-between items-center px-4">
+      <div class="flex gap-2 items-center">
+        <fa-icon [icon]="iconSearch"></fa-icon>
+        <input
+          class="border-2 rounded-lg p-2 w-full"
+          placeholder="Buscar..."
+          type="text"
+          formControlName="search"
+        />
+      </div>
+      @if (this.session?.rolId === 1) {
+      <button
+        (click)="openDialogTaskCreate()"
+        class="flex gap-2 bg-primary p-2 rounded-lg text-white font-normal"
+      >
+        Nueva tarea
+      </button>
+      }
+    </div>
+  </form>
+
+  <div class="grid grid-cols-1 p-4 rounded-md gap-3">
+    @for (item of TaskListPending; track $index) {
+    <div>
+      <div
+        class="flex flex-col bg-white gap-2 p-3 shadow-md rounded-lg border-l-4 border-l-slate-800"
+      >
+        <div class="flex w-full items-center justify-between p-1 gap-2">
+          <div class="flex gap-3 items-center">
+            <div class="flex">
+              <div class="text-primary">{{ item.code }}</div>
+            </div>
+
+            <div class="flex flex-1">
+              @if (this.session?.rolId === 1 || this.session?.rolId === 2) {
+              <a
+                class="text-primary cursor-pointer hover:underline"
+                (click)="openDialogTask(item)"
+                >{{ item.title }}</a
+              >
+              }@else {
+              <span class="text-primary">{{ item.title }}</span>
+              }
+            </div>
+          </div>
+          <div class="flex">
+            <div
+              class="bg-slate-300 px-2 py-1 rounded-full text text-slate-800"
+            >
+              Pendiente
+            </div>
+          </div>
+        </div>
+        <hr />
+
+        <div class="flex justify-between items-center p-2">
+          <div class="flex flex-1 gap-2 font-normal items-center">
+            Estado
+            <select
+              class="border rounded p-2"
+              [(ngModel)]="selectedStatus"
+              (change)="onStatusChange($event, item.code)"
+            >
+              @for (item of listStatus; track $index) {
+              <option [value]="item.value">{{ item.description }}</option>
+              }
+            </select>
+          </div>
+          <div class="flex justify-between items-center px-2 mt-2">
+            <div class="flex gap-2 items-center">
+              <div class="m-0 font-normal">Tipo:</div>
+              <div class="m-0 font-normal">{{ item.type }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-between items-center p-2">
+          <div class="flex flex-1 gap-2 font-normal items-center">
+            Asignado A:
+            <span class="font-bold">{{
+              getNameAssignedUser(item.assignedUserId ?? 0)
+            }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+
+  <!-- In Progress -->
+
+  <div class="grid grid-cols-1 p-4 rounded-md gap-3">
+    @for (item of TaskListInProgress; track $index) {
+    <div>
+      <div
+        class="flex flex-col bg-white gap-2 p-3 shadow-md rounded-lg border-l-4 border-l-yellow-400"
+      >
+        <div class="flex w-full items-center justify-between p-1 gap-2">
+          <div class="flex gap-3 items-center">
+            <div class="flex">
+              <div class="text-primary">{{ item.code }}</div>
+            </div>
+
+            <div class="flex flex-1">
+              <a
+                class="text-primary cursor-pointer hover:underline"
+                (click)="openDialogTask(item)"
+                >{{ item.title }}</a
+              >
+            </div>
+          </div>
+          <div class="flex">
+            <div
+              class="bg-yellow-300 px-2 py-1 rounded-full text text-yellow-800"
+            >
+              En Proceso
+            </div>
+          </div>
+        </div>
+        <hr />
+
+        <div class="flex justify-between items-center p-2">
+          <div class="flex flex-1 gap-2 font-normal items-center">
+            Estado
+            <select
+              class="border rounded p-2"
+              [(ngModel)]="selectedStatus1"
+              (change)="onStatusChange($event, item.code)"
+            >
+              @for (item of listStatus; track $index) {
+              <option [value]="item.value">{{ item.description }}</option>
+              }
+            </select>
+          </div>
+          <div class="flex justify-between items-center px-2 mt-2">
+            <div class="flex gap-2 items-center">
+              <div class="m-0 font-normal">Tipo:</div>
+              <div class="m-0 font-normal">{{ item.type }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="flex px-2 justify-between items-center">
+          <div class="flex gap-2 font-normal">
+            Inicio:
+            <strong>{{ item.startDate | date : "dd/MM/yyyy HH:mm" }}</strong>
+          </div>
+        </div>
+        <div class="flex justify-between items-center p-2">
+          <div class="flex flex-1 gap-2 font-normal items-center">
+            Asignado A:
+            <span class="font-bold">{{
+              getNameAssignedUser(item.assignedUserId ?? 0)
+            }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+
+  <!-- Completed -->
+
+  <div class="grid grid-cols-1 p-4 rounded-md gap-3">
+    @for (item of TaskListCompleted; track $index) {
+    <div>
+      <div
+        class="flex flex-col bg-white gap-2 p-3 shadow-md rounded-lg border-l-4 border-l-secondary"
+      >
+        <div class="flex w-full items-center justify-between p-1 gap-2">
+          <div class="flex gap-3 items-center">
+            <div class="flex">
+              <div class="text-primary">{{ item.code }}</div>
+            </div>
+
+            <div class="flex flex-1">
+              <a
+                class="text-primary cursor-pointer hover:underline"
+                (click)="openDialogTask(item)"
+                >{{ item.title }}</a
+              >
+            </div>
+          </div>
+          <div class="flex">
+            <div
+              class="bg-green-300 px-2 py-1 rounded-full text text-green-800"
+            >
+              Completado
+            </div>
+          </div>
+        </div>
+        <hr />
+
+        <div class="flex justify-between items-center p-2">
+          <div class="flex flex-1 gap-2 font-normal items-center">
+            Estado
+            <select
+              class="border rounded p-2"
+              [(ngModel)]="selectedStatus2"
+              (change)="onStatusChange($event, item.code)"
+            >
+              @for (item of listStatus; track $index) {
+              <option [value]="item.value">{{ item.description }}</option>
+              }
+            </select>
+          </div>
+          <div class="flex justify-between items-center px-2 mt-2">
+            <div class="flex gap-2 items-center">
+              <div class="m-0 font-normal">Tipo:</div>
+              <div class="m-0 font-normal">{{ item.type }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="flex px-2 justify-between items-center">
+          <div class="flex gap-2 font-normal">
+            Inicio:
+            <strong>{{ item.startDate | date : "dd/MM/yyyy HH:mm" }}</strong>
+          </div>
+          <div class="flex gap-2 font-normal">
+            Fin: <strong>{{ item.endDate | date : "dd/MM/yyyy HH:mm" }}</strong>
+          </div>
+        </div>
+        <div class="flex justify-between items-center p-2">
+          <div class="flex flex-1 gap-2 font-normal items-center">
+            Asignado A:
+            <span class="font-bold">{{
+              getNameAssignedUser(item.assignedUserId ?? 0)
+            }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,80 @@
+<div
+  class="flex flex-col gap-4 overflow-x-auto rounded-lg h-full overflow-y-auto relative p-5"
+>
+  @if (this.userPaginated) {
+  <form [formGroup]="form" class="col-span-3">
+    <div class="flex justify-between items-center px-4">
+      <div class="flex gap-2 items-center">
+        <fa-icon [icon]="iconSearch"></fa-icon>
+        <input
+          class="border-2 rounded-lg p-2 w-full"
+          placeholder="Buscar..."
+          type="text"
+          formControlName="search"
+        />
+      </div>
+      <button
+        class="flex gap-2 bg-primary p-2 rounded-lg text-white font-normal"
+      >
+        <a routerLink="create">Nuevo usuario</a>
+      </button>
+    </div>
+  </form>
+  <table class="w-full table-auto border-t-0 bg-white">
+    <thead
+      class="px-5 py-3 border-b-2 border-gray-200 bg-primary text-left text-xs font-semibold text-gray-600 uppercase tracking-wider w-full"
+    >
+      <tr class="text-left">
+        <th class="p-3 text-left text-sm text-white font-normal">Username</th>
+        <th class="p-3 text-left text-sm text-white font-normal">Nombre</th>
+        <th class="p-3 text-left text-sm text-white font-normal">Email</th>
+        <th class="p-3 text-left text-sm text-white font-normal">Rol</th>
+        <th class="p-3 text-left text-sm text-white font-normal">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of userPaginated.dataList; track $index) {
+      <tr class="p-4">
+        <td class="border-dashed border-t border-gray-200 p-3 font-normal">
+          {{ item.username }}
+        </td>
+        <td class="border-dashed border-t border-gray-200 p-3 font-normal">
+          {{ item.name }} {{ item.lastName }}
+        </td>
+        <td class="border-dashed border-t border-gray-200 p-3 font-normal">
+          {{ item.email }}
+        </td>
+        <td class="border-dashed border-t border-gray-200 p-3 font-normal">
+          {{ getRolName(item.rolId) }}
+        </td>
+        <td class="border-dashed border-t border-gray-200 p-3">
+          <div class="flex gap-2 justify-start items-center">
+            <fa-icon
+              [icon]="iconEdit"
+              class="text-primary cursor-pointer"
+              (click)="openDialogUser(item)"
+            ></fa-icon>
+            <fa-icon
+              [icon]="iconDelete"
+              class="text-red-500"
+              (click)="deleteUser(item.id)"
+            ></fa-icon>
+          </div>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+  <app-paginator
+    [paginatorData]="this.paginatorData"
+    (pageIndex)="this.paginator($event)"
+  ></app-paginator>
+  }@else {
+  <div class="flex justify-center items-center">
+    <fa-icon
+      [icon]="iconLoading"
+      class="text-2xl text-gray-500 fa-spin"
+    ></fa-icon>
+  </div>
+  }
+</div>
